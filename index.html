@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Escáner de Código de Barras/QR</title>
+    <style>
+        #video-container {
+            text-align: center;
+        }
+        #video {
+            width: 100%;
+            max-width: 640px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escáner de Código de Barras/QR</h1>
+    
+    <div id="video-container">
+        <video id="video" playsinline autoplay style="display: none;"></video>
+    </div>
+    
+    <button id="startButton">Habilitar Cámara</button>
+    
+    <div id="result">
+        <p id="scanned-data"></p>
+    </div>
+    
+    <script>
+        const videoElement = document.getElementById('video');
+        const startButton = document.getElementById('startButton');
+        const scannedData = document.getElementById('scanned-data');
+
+        startButton.addEventListener('click', () => {
+            startCamera();
+        });
+
+        function startCamera() {
+            const constraints = {
+                video: { facingMode: 'environment' }
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function (stream) {
+                    videoElement.srcObject = stream;
+                    videoElement.style.display = 'block';
+                    scannedData.innerText = '';
+
+                    // Use a barcode/QR code scanning library of your choice here
+                    // For example, you can use `zxing-js` or `jsQR`
+
+                    // When a code is successfully scanned, display it
+                    // Example (using zxing-js):
+                    /*const codeReader = new ZXing.BrowserQRCodeReader();
+                    codeReader.decodeFromVideoElement(videoElement, (result, error) => {
+                        if (result) {
+                            scannedData.innerText = `Escaneado: ${result.text}`;
+                        }
+                    });*/
+
+                })
+                .catch(function (error) {
+                    console.error('Error al habilitar la cámara:', error);
+                });
+        }
+    </script>
+</body>
+</html>
